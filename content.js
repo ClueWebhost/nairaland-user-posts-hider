@@ -23,3 +23,16 @@ chrome.runtime.onMessage.addListener(function (request) {
     });
   }
 });
+
+ // Receive usernames from the content script
+  chrome.runtime.sendMessage({ action: 'getUsernames' }, function (response) {
+    const usernames = response.usernames;
+    const usernamesContainer = document.getElementById('usernames');
+
+    // Add a "hide posts" button for each username
+    usernames.forEach(username => {
+      const button = document.createElement('button');
+      button.textContent = `Hide posts by ${username}`;
+      button.addEventListener('click', function () {
+        chrome.runtime.sendMessage({ action: 'hidePosts', username: username });
+      });
