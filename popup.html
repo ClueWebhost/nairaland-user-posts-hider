@@ -1,6 +1,37 @@
 <!-- HTML for the popup -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      /* Add your styles here */
+      .username-list {
+        list-style: none;
+        padding: 0;
+      }
 
+      .username-list li {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .hide-posts-btn {
+        background-color: #ddd;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Nairaland Posts Hider</h3>
 <div id="usernames"></div>
+
+  </body>
+</html>
 
 <script>
   // Receive usernames from the content script
@@ -15,4 +46,5 @@
       button.addEventListener('click', function () {
         chrome.runtime.sendMessage({ action: 'hidePosts', username: username });
       });
-     
+ 
+</script>    
