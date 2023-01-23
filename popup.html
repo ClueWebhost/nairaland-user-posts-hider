@@ -1,16 +1,18 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <style>
-      #users-container {
-        height: 100%;
-        width: 100%;
-        overflow-y: auto;
-        padding: 10px;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="users-container"></div>
-  </body>
-</html>
+<!-- HTML for the popup -->
+
+<div id="usernames"></div>
+
+<script>
+  // Receive usernames from the content script
+  chrome.runtime.sendMessage({ action: 'getUsernames' }, function (response) {
+    const usernames = response.usernames;
+    const usernamesContainer = document.getElementById('usernames');
+
+    // Add a "hide posts" button for each username
+    usernames.forEach(username => {
+      const button = document.createElement('button');
+      button.textContent = `Hide posts by ${username}`;
+      button.addEventListener('click', function () {
+        chrome.runtime.sendMessage({ action: 'hidePosts', username: username });
+      });
+     
