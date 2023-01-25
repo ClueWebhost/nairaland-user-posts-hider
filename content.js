@@ -1,34 +1,25 @@
+// Content script that runs on nairaland.com pages
+
+// Get all usernames on the page
 const usernames = new Set();
-const posts = new Map();
-
-const observer = new MutationObserver(mutations => {
-  mutations.forEach(mutation => {
-    mutation.addedNodes.forEach(node => {
-      if (node.nodeName === "TD" && node.classList.contains("bold")) {
-        const username = node.getElementsByClassName("user")[0].textContent;
-        usernames.add(username);
-
-        const postId = node.getElementsByTagName("a")[0].getAttribute("name");
-        const postContent = document.getElementById(`pb${postId}`);
-        posts.set(postId, { username, postContent });
-
-        const hideButton = document.createElement("button");
-        hideButton.textContent = "Hide Posts";
-        hideButton.style.marginLeft = "5px";
-        hideButton.addEventListener("click", () => {
-          posts
-            .forEach(({ username: postUsername, postContent }, postId) => {
-              if (postUsername === username) {
-                postContent.style.display = "none";
-                posts.delete(postId);
-              }
-            });
-        });
-
-        node.appendChild(hideButton);
-      }
-    });
-  });
+const postElements = document.querySelectorAll('td.bold.l.pu a.user');
+postElements.forEach(element => {
+  usernames.add(element.textContent);
 });
 
-observer.observe(document.body, { childList: true, subtree: true });
+// Send usernames to the popup
+chrome.runtime.sendMessage({ usernames: [...usernames] });
+
+// Listen for messages from the popup
+chrome.runtime.onMessage.addListener(function (request) {
+  if (request.action === 'hidePosts') {
+    // Hide all posts belonging to the specified username
+    const username = request.username;
+    postElements.forEach(element => {
+      if (element.textContent === username) {
+        const postId = element.closest('tr').nextElementSibling.id.substring(2);
+        document.getElementById(`pb${postId}`).style.display = 'none';
+      }
+    });
+  }
+});
