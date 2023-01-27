@@ -1,20 +1,21 @@
 {
   "manifest_version": 3,
-  "name": "Nairaland username hiding extension",
+  "name": "Nairaland Forum Filter",
   "version": "1.0",
-  "description": "An extension to hide posts on Nairaland forum made by a specific user",
-  "permissions": [
-    "https://www.nairaland.com/*",
-    "https://nairaland.com/*"
-  ],
-  "browser_action": {
-    "default_popup": "popup.html",
-    "default_icon": {
-      "180": "icon.png",
-      "512": "icon_512.png"
+  "content_scripts": [
+    {
+      "matches": ["*://*.nairaland.com/*"],
+      "js": ["content.js"]
     }
-  },
+  ],
+  "permissions": [
+    "activeTab",
+    "declarativeContent"
+  ],
   "background": {
-    "service_worker": "background.js"
+    "scripts": ["background.js"]
+  },
+  "browser_action": {
+    "default_popup": "popup.html"
   }
 }
