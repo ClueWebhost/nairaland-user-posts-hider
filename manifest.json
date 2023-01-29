@@ -1,23 +1,20 @@
 {
   "manifest_version": 3,
-  "name": "Nairaland User Posts Hider",
-  "description": "This extension allows users to hide posts from specific users on the Nairaland.com forums.",
+  "name": "Nairaland username hiding extension",
   "version": "1.0",
-  "icons": {
-   "180": "icon.png",
-   "512": "icon_512.png"
- },
-  "content_scripts": [
-    {
-      "matches": ["https://www.nairaland.com/*", "https://nairaland.com/*"],
-      "js": ["content.js"]
-    }
-  ],
+  "description": "An extension to hide posts on Nairaland forum made by a specific user",
   "permissions": [
-    "activeTab"
-  ],
-  "host_permissions": [
     "https://www.nairaland.com/*",
     "https://nairaland.com/*"
-  ]
+  ],
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "180": "icon.png",
+      "512": "icon_512.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
 }
