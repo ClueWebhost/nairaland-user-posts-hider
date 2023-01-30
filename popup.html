@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      /* Add your styles here */
+      .username-list {
+        list-style: none;
+        padding: 0;
+      }
+
+      .username-list li {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .hide-posts-btn {
+        background-color: #ddd;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Nairaland Posts Hider</h3>
+    <ul class="username-list">
+      <!-- List of usernames and hide posts buttons will be dynamically generated here -->
+    </ul>
+  </body>
+</html>
+
+<script>
+  // Get a list of all the usernames on the page
+  const usernames = Array.from(document.querySelectorAll('.user')).map(user => user.textContent);
+  const uniqueUsernames = [...new Set(usernames)];
+
+  // Generate the list of usernames and hide posts buttons
+  const usernameList = document.querySelector('.username-list');
+  uniqueUsernames.forEach(username => {
+    const li = document.createElement('li');
+    li.innerHTML = `<span>${username}</span>`;
+
+    const hidePostsBtn = document.createElement('button');
+    hidePostsBtn.classList.add('hide-posts-btn');
+    hidePostsBtn.textContent = 'Hide Posts';
+    hidePostsBtn.addEventListener('click', () => {
+      // Get all the posts made by the username
+      const posts = Array.from(document.querySelectorAll('.user')).filter(user => user.textContent === username);
+      posts.forEach(post => {
+        post.closest('td').style.display = 'none';
+      });
+    });
+
+    li.appendChild(hidePostsBtn);
+    usernameList.appendChild(li);
+  });
+</script>
