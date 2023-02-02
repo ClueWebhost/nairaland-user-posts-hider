@@ -4,8 +4,8 @@
   "description": "This extension allows users to hide posts from specific users on the Nairaland.com forums.",
   "version": "1.0",
   "icons": {
-   "48": "icon.png",
-   "128": "icon_128.png"
+   "180": "icon.png",
+   "512": "icon_512.png"
  },
   "content_scripts": [
     {
