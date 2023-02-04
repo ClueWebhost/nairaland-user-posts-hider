@@ -1,7 +1,12 @@
 {
   "manifest_version": 3,
   "name": "Nairaland User Posts Hider",
+  "description": "This extension allows users to hide posts from specific users on the Nairaland.com forums.",
   "version": "1.0",
+  "icons": {
+   "48": "icon.png",
+   "128": "icon_128.png"
+ },
   "content_scripts": [
     {
       "matches": ["https://www.nairaland.com/*", "https://nairaland.com/*"],
