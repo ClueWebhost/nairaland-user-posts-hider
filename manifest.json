@@ -4,7 +4,7 @@
   "version": "1.0",
   "content_scripts": [
     {
-      "matches": ["https://www.nairaland.com/*"],
+      "matches": ["https://nairaland.com/*"],
       "js": ["content.js"]
     }
   ],
@@ -12,6 +12,6 @@
     "activeTab"
   ],
   "host_permissions": [
-    "https://www.nairaland.com/*"
+    "https://nairaland.com/*"
   ]
 }
