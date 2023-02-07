@@ -9,7 +9,9 @@
     }
   ],
   "permissions": [
-    "activeTab",
+    "activeTab"
+  ],
+  "host_permissions": [
     "https://www.nairaland.com/*"
   ]
 }
