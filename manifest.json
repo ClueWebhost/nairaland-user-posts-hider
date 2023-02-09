@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "Nairaland User Posts Hider",
+  "version": "1.0",
+  "content_scripts": [
+    {
+      "matches": ["https://www.nairaland.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "permissions": [
+    "activeTab",
+    "https://www.nairaland.com/*"
+  ]
+}
