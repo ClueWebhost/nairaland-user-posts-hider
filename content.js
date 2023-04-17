@@ -1,38 +1,39 @@
-// Content script that runs on nairaland.com pages
+function hidePosts(username) {
+  const allRows = document.querySelectorAll('tr');
+  let hideNextRow = false;
 
-// Get all usernames on the page
-const usernames = new Set();
-const postElements = document.querySelectorAll('td.bold.l.pu a.user');
-postElements.forEach(element => {
-  usernames.add(element.textContent);
-});
+  allRows.forEach((row) => {
+    if (hideNextRow) {
+      row.style.display = 'none';
+      hideNextRow = false;
+    }
 
-// Send usernames to the popup
-chrome.runtime.sendMessage({ usernames: [...usernames] });
+    const userElement = row.querySelector(`a.user[href="/${username}"]`);
+    if (userElement) {
+      row.style.display = 'none';
+      hideNextRow = true;
+    }
+  });
+}
 
-// Listen for messages from the popup
-chrome.runtime.onMessage.addListener(function (request) {
-  if (request.action === 'hidePosts') {
-    // Hide all posts belonging to the specified username
-    const username = request.username;
-    postElements.forEach(element => {
-      if (element.textContent === username) {
-        const postId = element.closest('tr').nextElementSibling.id.substring(2);
-        document.getElementById(`pb${postId}`).style.display = 'none';
-      }
-    });
-  }
-});
 
- // Receive usernames from the content script
-  chrome.runtime.sendMessage({ action: 'getUsernames' }, function (response) {
-    const usernames = response.usernames;
-    const usernamesContainer = document.getElementById('usernames');
+function createHideButton(username) {
+  const hideBtn = document.createElement('button');
+  hideBtn.innerText = 'Hide Posts';
+  hideBtn.style.marginLeft = '5px';
+  hideBtn.addEventListener('click', () => {
+    hidePosts(username);
+  });
+  return hideBtn;
+}
 
-    // Add a "hide posts" button for each username
-    usernames.forEach(username => {
-      const button = document.createElement('button');
-      button.textContent = `Hide posts by ${username}`;
-      button.addEventListener('click', function () {
-        chrome.runtime.sendMessage({ action: 'hidePosts', username: username });
-      });
+function addHideButtonsToUsernames() {
+  const userLinks = document.querySelectorAll('a.user');
+  userLinks.forEach((userLink) => {
+    const username = userLink.getAttribute('href').substring(1);
+    const hideBtn = createHideButton(username);
+    userLink.parentNode.insertBefore(hideBtn, userLink.nextSibling);
+  });
+}
+
+addHideButtonsToUsernames();
