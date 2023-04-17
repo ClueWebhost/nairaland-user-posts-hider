@@ -1,7 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Hide Posts on Nairaland",
+  "name": "Hide Spam Posts on Nairaland",
   "version": "1.0",
+  "description": "This chrome extension hides posts from spammers on the Nairaland forum to fix your search/user experience.",
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
