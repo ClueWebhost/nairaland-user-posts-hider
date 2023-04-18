@@ -1,11 +1,19 @@
 function hidePosts(username) {
   const allRows = document.querySelectorAll('tr');
   let hideNextRow = false;
+  let hideSignatureRow = false;
 
   allRows.forEach((row) => {
     if (hideNextRow) {
       row.style.display = 'none';
       hideNextRow = false;
+      hideSignatureRow = true;
+    } else if (hideSignatureRow) {
+      const signatureElement = row.querySelector('.l.pd.sig.w');
+      if (signatureElement) {
+        row.style.display = 'none';
+      }
+      hideSignatureRow = false;
     }
 
     if (row.querySelector('.grad')) {
