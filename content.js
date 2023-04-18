@@ -8,6 +8,10 @@ function hidePosts(username) {
       hideNextRow = false;
     }
 
+    if (row.querySelector('.grad')) {
+      return; // skip hiding the header row
+    }
+
     const userElement = row.querySelector(`a.user[href="/${username}"]`);
     if (userElement) {
       row.style.display = 'none';
