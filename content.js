@@ -9,6 +9,24 @@ function loadHiddenUsers(callback) {
   });
 }
 
+function hideQuotedPosts(hiddenUsers) {
+  const quotedPosts = document.querySelectorAll("blockquote");
+
+  quotedPosts.forEach((quote) => {
+    const quotedUsernameElement = quote.querySelector("a");
+    if (quotedUsernameElement) {
+      const quotedUsername = quotedUsernameElement.textContent;
+      if (hiddenUsers.has(quotedUsername)) {
+        const postElement = quote.closest("td").parentElement;
+        if (postElement) {
+          postElement.style.display = "none";
+        }
+      }
+    }
+  });
+}
+
+
 function hidePosts(username, hiddenUsers) {
   const allRows = document.querySelectorAll('tr');
   let hideNextRow = false;
@@ -41,6 +59,7 @@ function hidePosts(username, hiddenUsers) {
 
   hiddenUsers.add(username);
   saveHiddenUsers(hiddenUsers);
+  hideQuotedPosts(hiddenUsers);
 }
 
 
@@ -62,6 +81,8 @@ function addHideButtonsToUsernames(hiddenUsers) {
     userLink.parentNode.insertBefore(hideBtn, userLink.nextSibling);
   });
 }
+
+
 
 loadHiddenUsers((hiddenUsers) => {
   hiddenUsers.forEach((username) => {
